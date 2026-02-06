@@ -1,0 +1,129 @@
+# **Histórias de Usuário \- SGM** 
+
+Este documento detalha as funcionalidades do Sistema de Gestão de Manutenção (SGM) a partir da perspetiva de cada ator, com o objetivo de clarificar o valor e os requisitos de cada funcionalidade.
+
+## **Ator: Solicitante**
+
+*O Solicitante é qualquer colaborador que precisa de reportar um problema e acompanhar a sua resolução de forma simples e transparente.*
+
+### **HU01: Criar uma Solicitação de Manutenção de forma intuitiva**
+
+**Como um** Solicitante, **eu quero** criar uma nova Ordem de Serviço (OS) através de um formulário claro e guiado, **para que** eu possa reportar um problema com precisão e garantir que a equipe de manutenção tenha toda a informação necessária para começar.
+
+* **Critérios de Aceitação:**  
+  * O formulário deve ter campos obrigatórios claramente marcados (Unidade, Área, Ativo, Descrição).  
+  * O sistema deve impedir a submissão de pedidos para "Equipamentos de TI", exibindo uma mensagem informativa que direcione o utilizador para o canal correto.  
+  * Deve ser possível anexar ficheiros (como fotos ou vídeos curtos) para ilustrar o problema.  
+  * Após a submissão, uma mensagem de sucesso deve ser exibida com o número único da OS para referência futura.
+
+### **HU02: Acompanhar o progresso das minhas solicitações**
+
+**Como um** Solicitante, **eu quero** visualizar uma lista de todas as minhas solicitações e o seu estado atual em tempo real, **para que** eu saiba exatamente em que fase está o meu pedido sem precisar de contactar ninguém.
+
+* **Critérios de Aceitação:**  
+  * Uma secção "Minhas Solicitações" deve estar facilmente acessível.  
+  * A lista deve mostrar, no mínimo, o número da OS, o estado (ex: Aberta, Aprovada, Em Execução, Concluída), a data de abertura e a data prevista de conclusão.  
+  * Deve ser possível clicar numa OS para ver um histórico detalhado de todas as mudanças de estado e comentários.
+
+### **HU03: Comunicar sobre uma solicitação específica**
+
+**Como um** Solicitante, **eu quero** adicionar comentários e perguntas diretamente numa OS, **para que** toda a comunicação fique centralizada, documentada e contextualizada com o pedido.
+
+* **Critérios de Aceitação:**  
+  * A página de detalhes da OS deve ter uma secção de "Comentários" ou "Histórico".  
+  * Ao adicionar um novo comentário, os outros envolvidos (Gestor e Técnico) devem ser notificados.  
+  * Todos os comentários devem registar o nome do autor e a data/hora do envio.
+
+## **Ator: Técnico de Manutenção**
+
+*O Técnico é o responsável pela execução das tarefas. Ele precisa de uma ferramenta que organize o seu trabalho e facilite o registo das suas atividades em campo.*
+
+### **HU04: Visualizar a minha fila de trabalho diária**
+
+**Como um** Técnico de Manutenção, **eu quero** aceder a um painel com todas as OS que me foram atribuídas, organizadas por prioridade, **para que** eu possa planear o meu dia de trabalho de forma eficiente e focar-me nas tarefas mais urgentes.
+
+* **Critérios de Aceitação:**  
+  * O painel deve exibir uma lista de OS com informações chave: Prioridade, Ativo, Localização e Estado.  
+  * A ferramenta deve permitir ordenar e filtrar a lista (ex: por prioridade, por data).  
+  * As OS concluídas ou fechadas não devem aparecer na vista principal, mas devem ser acessíveis através de um filtro.
+
+### **HU05: Registar a execução e o progresso do meu trabalho**
+
+**Como um** Técnico de Manutenção, **eu quero** atualizar o estado de uma OS e registar os detalhes do serviço realizado, **para que** o sistema reflita o progresso real do trabalho e mantenha um histórico preciso para consultas futuras.
+
+* **Critérios de Aceitação:**  
+  * Devo poder alterar o estado da OS para "Em Execução" ao iniciar e para "Concluída" ao terminar.  
+  * Deve haver campos para descrever o serviço, apontar as horas trabalhadas e listar os materiais utilizados.  
+  * Devo poder anexar fotos do "antes e depois" do serviço.  
+  * Se o trabalho precisar de ser interrompido (ex: por falta de peças), devo poder colocar a OS em estado de "Pausa" e adicionar uma nota explicativa.
+
+## **Ator: Gestor de Manutenção**
+
+*O Gestor é o cérebro da operação. Ele precisa de visibilidade total sobre o processo, ferramentas para gerir a equipa e dados para tomar decisões estratégicas.*
+
+### **HU06: Analisar, priorizar e aprovar novas solicitações**
+
+**Como um** Gestor de Manutenção, **eu quero** avaliar todas as novas solicitações num painel central, **para que** eu possa validar a sua pertinência, definir a prioridade de execução e aprovar o início do trabalho.
+
+* **Critérios de Aceitação:**  
+  * O painel principal deve ter um widget ou filtro para "Novas Solicitações".  
+  * Ao analisar uma OS, devo poder definir a sua "Prioridade" e uma "Data Prevista de Conclusão".  
+  * Devo ter as opções de "Aprovar" a OS, avançando-a no fluxo, ou "Rejeitar", com um campo obrigatório para justificação.
+
+### **HU07: Atribuir tarefas à minha equipa de forma inteligente**
+
+**Como um** Gestor de Manutenção, **eu quero** atribuir Ordens de Serviço aprovadas ao técnico mais adequado, **para que** eu possa distribuir a carga de trabalho de forma equilibrada e garantir que a tarefa seja executada pelo profissional correto.
+
+* **Critérios de Aceitação:**  
+  * Ao atribuir uma OS, o sistema deve mostrar uma lista de técnicos disponíveis.  
+  * (Opcional, para futuras versões) O sistema poderia sugerir um técnico com base na sua localização, especialidade ou carga de trabalho atual.  
+  * Após a atribuição, o estado da OS muda para "Agendada" e o técnico é notificado.
+
+### **HU08: Rever e fechar Ordens de Serviço concluídas**
+
+**Como um** Gestor de Manutenção, **eu quero** rever os detalhes de uma OS concluída pelo técnico e registar os custos finais, **para que** eu possa validar a qualidade do serviço, garantir a precisão dos dados e encerrar formalmente o ciclo de vida do pedido.
+
+* **Critérios de Aceitação:**  
+  * Devo ter uma lista de OS no estado "Concluída" pendentes de revisão.  
+  * Devo poder inserir ou validar os custos de mão de obra e materiais.  
+  * Ao alterar o estado para "Fechada", a OS deve ser arquivada como um registo histórico imutável.
+
+### **HU09: Automatizar a manutenção preventiva**
+
+**Como um** Gestor de Manutenção, **eu quero** criar planos de manutenção preventiva baseados em calendário ou utilização, **para que** o sistema gere OS automaticamente, reduzindo a ocorrência de falhas inesperadas e aumentando a vida útil dos ativos.
+
+* **Critérios de Aceitação:**  
+  * Devo poder criar um plano definindo o ativo, a frequência (ex: a cada 3 meses) e uma lista de tarefas padrão.  
+  * O sistema deve gerar e atribuir automaticamente as OS preventivas com base nestes planos.
+
+### **HU10: Manter um catálogo de ativos centralizado**
+
+**Como um** Gestor de Manutenção, **eu quero** gerir um catálogo completo de todos os ativos da organização, **para que** eu tenha uma fonte única de verdade sobre os nossos equipamentos e o seu histórico de manutenção.
+
+* **Critérios de Aceitação:**  
+  * A ferramenta deve permitir operações CRUD (Criar, Ler, Atualizar, Apagar) sobre os ativos.  
+  * Cada ativo deve ter campos para dados importantes como Número de Património, Marca, Modelo, Localização e data de instalação.
+
+### **HU11: Personalizar os parâmetros do sistema**
+
+**Como um** Gestor de Manutenção, **eu quero** administrar as listas de opções usadas no sistema (como Unidades, Áreas, Tipos de Serviço), **para que** eu possa adaptar a ferramenta à realidade e à terminologia da nossa organização sem depender de suporte técnico.
+
+* **Critérios de Aceitação:**  
+  * A área de administração deve permitir adicionar, editar e remover itens das listas de parâmetros de forma intuitiva.
+
+### **HU12: Gerir o acesso dos utilizadores**
+
+**Como um** Gestor de Manutenção, **eu quero** criar e gerir as contas dos utilizadores e os seus níveis de permissão, **para que** eu possa garantir a segurança do sistema e que cada pessoa tenha acesso apenas às funcionalidades relevantes para o seu trabalho.
+
+* **Critérios de Aceitação:**  
+  * Devo poder criar um utilizador associando-o a um dos perfis: Solicitante, Técnico ou Gestor.  
+  * Devo poder desativar contas e redefinir palavras-passe.
+
+### **HU13: Extrair inteligência dos dados de manutenção**
+
+**Como um** Gestor de Manutenção, **eu quero** aceder a dashboards visuais e gerar relatórios personalizáveis, **para que** eu possa identificar tendências, analisar KPIs (como MTTR e MTBF), controlar custos e tomar decisões informadas para otimizar a operação.
+
+* **Critérios de Aceitação:**  
+  * O dashboard principal deve exibir gráficos com os principais indicadores de desempenho.  
+  * A ferramenta de relatórios deve permitir filtrar os dados por período, tipo de ativo, unidade, etc.  
+  * Deve ser possível exportar os relatórios em formato PDF ou CSV.

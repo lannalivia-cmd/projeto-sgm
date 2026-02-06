@@ -1,0 +1,245 @@
+# **Documentação de Casos de Uso para o Sistema de Gestão de Manutenção (SGM)**
+
+## **1\. Introdução**
+
+Este documento detalha os requisitos funcionais para o novo Sistema de Gestão de Manutenção (SGM) utilizando a metodologia de Casos de Uso. O objetivo é fornecer uma descrição clara e inequívoca de como os diferentes utilizadores irão interagir com o sistema para atingir os seus objetivos. A especificação baseia-se na análise do processo de manutenção atual, incluindo o fluxo BPMN e o manual do sistema legado 1, e visa endereçar as suas limitações, propondo um sistema robusto, eficiente e escalável.
+
+## **2\. Atores do Sistema**
+
+Os atores são entidades (pessoas ou sistemas) que interagem com o SGM. Foram identificados três atores principais:
+
+* **Solicitante:** Qualquer colaborador das unidades SESI-SP e SENAI-SP que necessite de abrir um pedido de manutenção para equipamentos não relacionados com TI.  
+* **Gestor de Manutenção:** O responsável pela supervisão, gestão e análise de todo o processo de manutenção. Este perfil detém privilégios administrativos sobre o sistema.  
+* **Técnico de Manutenção:** O executor das tarefas de manutenção. Este ator, atualmente offline no processo 1, é formalizado no novo sistema para otimizar o fluxo de trabalho e a captura de dados.
+
+## **3\. Casos de Uso do Sistema**
+
+A seguir, são descritos os casos de uso que representam as principais funcionalidades do sistema, agrupados pelos atores que os iniciam.
+
+**Para o ator Solicitante:**
+
+* UC01: Solicitar Manutenção  
+* UC02: Consultar Status da Solicitação  
+* UC03: Comunicar-se sobre a Solicitação
+
+**Para o ator Técnico de Manutenção:**
+
+* UC04: Visualizar Ordens de Serviço Atribuídas  
+* UC05: Registrar Execução do Trabalho
+
+**Para o ator Gestor de Manutenção:**
+
+* UC06: Analisar e Priorizar Solicitação  
+* UC07: Atribuir Solicitação a Técnico  
+* UC08: Atualizar e Fechar Ordem de Serviço  
+* UC09: Gerir Planos de Manutenção Preventiva  
+* UC10: Gerir Catálogo de Ativos  
+* UC11: Gerir Parâmetros do Sistema  
+* UC12: Gerir Utilizadores e Perfis  
+* UC13: Gerar Relatórios e Dashboards
+
+## **4\. Especificação dos Casos de Uso**
+
+### **UC01: Solicitar Manutenção**
+
+Este caso de uso, identificado como **UC01**, é iniciado pelo ator **Solicitante**. O seu objetivo é permitir que o utilizador crie uma nova Ordem de Serviço (OS) para reportar um problema ou solicitar um serviço de manutenção. A pré-condição para este processo é que o Solicitante esteja autenticado no sistema.
+
+**Fluxo Principal:**
+
+1. O Solicitante seleciona a opção "Criar Nova Ordem de Serviço".  
+2. O sistema apresenta o formulário de criação de OS.  
+3. O Solicitante preenche os campos obrigatórios: Unidade, Área, Tipo de Serviço, Ativo/Equipamento e Descrição do Problema.1  
+4. O Solicitante pode preencher campos opcionais como Marca, NI (Número de Identificação) e Local com detalhes adicionais.1  
+5. O Solicitante pode anexar ficheiros (ex: fotografias do problema).  
+6. O sistema valida se o ativo selecionado não pertence à categoria "Equipamento de TI".  
+7. O Solicitante submete o formulário.  
+8. O sistema gera um número de OS único, regista a data/hora e o nome do solicitante, define o estado inicial como "Aberta" e armazena a OS.1  
+9. O sistema exibe uma mensagem de sucesso com o número da OS e notifica o Gestor de Manutenção sobre a nova solicitação.
+
+**Fluxos Alternativos:**
+
+* **Ativo de TI selecionado:** Se o ativo for da categoria "TI", o sistema bloqueia a submissão e exibe uma mensagem informativa, orientando o utilizador para o processo correto de TI.  
+* **Campos obrigatórios não preenchidos:** Se algum campo obrigatório não for preenchido, o sistema impede a submissão e destaca os campos em falta.1
+
+Pós-condição:  
+Ao final do fluxo, uma nova Ordem de Serviço é criada no sistema com o estado "Aberta".
+
+### **UC02: Consultar Status da Solicitação**
+
+Este caso de uso, **UC02**, permite ao **Solicitante** visualizar o estado e os detalhes das suas solicitações de manutenção. Para isso, o Solicitante deve estar autenticado no sistema.
+
+**Fluxo Principal:**
+
+1. O Solicitante acede ao seu painel de controlo ou à secção "Minhas Solicitações".  
+2. O sistema exibe uma lista de todas as OS criadas pelo Solicitante.  
+3. Para cada OS, a lista apresenta informações chave: Número da OS, Título, Estado Atual (ex: Aberta, Aprovada, Em Execução, Concluída), Data de Abertura e Data Prevista de Conclusão.1  
+4. O Solicitante pode clicar numa OS para ver todos os seus detalhes, incluindo o histórico de alterações de estado e os comentários.
+
+Pós-condição:  
+O Solicitante fica informado sobre o progresso das suas solicitações.
+
+### **UC03: Comunicar-se sobre a Solicitação**
+
+Este caso de uso, **UC03**, permite que os atores **Solicitante**, **Gestor de Manutenção** e **Técnico de Manutenção** troquem informações e façam perguntas sobre uma Ordem de Serviço específica. A OS deve existir no sistema e o ator deve estar autenticado.
+
+**Fluxo Principal:**
+
+1. O ator abre a página de detalhes de uma OS.  
+2. O ator navega para a secção de "Comentários" ou "Histórico".  
+3. O ator digita a sua mensagem ou pergunta na caixa de texto e submete.  
+4. O sistema adiciona o comentário à OS, registando o nome do autor e a data/hora.  
+5. O sistema notifica os outros atores associados à OS (Solicitante, Gestor, Técnico atribuído) sobre o novo comentário.
+
+Pós-condição:  
+A comunicação fica registada de forma auditável e contextualizada na Ordem de Serviço.
+
+### **UC04: Visualizar Ordens de Serviço Atribuídas**
+
+Este caso de uso, **UC04**, é destinado ao **Técnico de Manutenção** e permite-lhe aceder à sua fila de trabalhos para ver as tarefas que lhe foram designadas. O Técnico deve estar autenticado no sistema.
+
+**Fluxo Principal:**
+
+1. O Técnico acede ao seu painel de controlo ou à secção "Minhas Tarefas".  
+2. O sistema exibe uma lista de todas as OS que lhe foram atribuídas e que não estão fechadas.  
+3. A lista apresenta informações prioritárias: Número da OS, Prioridade, Título, Ativo, Localização e Estado.  
+4. O Técnico pode ordenar e filtrar a lista (ex: por prioridade, data).  
+5. O Técnico seleciona uma OS para ver os detalhes completos e iniciar o trabalho.
+
+Pós-condição:  
+O Técnico tem uma visão clara e organizada do seu trabalho pendente.
+
+### **UC05: Registrar Execução do Trabalho**
+
+Neste caso de uso, **UC05**, o **Técnico de Manutenção** atualiza o estado da OS e regista os detalhes da execução, como tempo e materiais utilizados. A OS deve estar previamente atribuída ao Técnico.
+
+**Fluxo Principal:**
+
+1. O Técnico abre a OS que vai executar.  
+2. O Técnico altera o estado da OS de "Agendada" para "Em Execução". O sistema regista o início do trabalho.  
+3. Após a conclusão do serviço, o Técnico preenche os campos de execução, incluindo a descrição dos serviços, o tempo de trabalho despendido e a lista de materiais utilizados.  
+4. O Técnico pode anexar ficheiros, como fotos do serviço concluído.  
+5. O Técnico altera o estado da OS para "Concluída".  
+6. O sistema notifica o Solicitante e o Gestor de Manutenção que o trabalho foi concluído.
+
+**Fluxo Alternativo:**
+
+* **Pausar trabalho:** Se o trabalho precisar de ser interrompido (ex: aguardar peças), o Técnico pode alterar o estado para "Pausada" e adicionar uma nota explicativa.
+
+Pós-condição:  
+A OS é atualizada com os detalhes da execução e o seu estado é alterado para "Concluída".
+
+### **UC06: Analisar e Priorizar Solicitação**
+
+Este caso de uso, **UC06**, descreve como o **Gestor de Manutenção** avalia as novas solicitações, define a sua prioridade e aprova-as para execução. O Gestor deve estar autenticado e devem existir OS com o estado "Aberta".
+
+**Fluxo Principal:**
+
+1. O Gestor acede ao painel de controlo, que exibe as novas solicitações.  
+2. O Gestor abre uma OS com estado "Aberta" para análise.  
+3. O Gestor analisa a descrição e, se necessário, comunica com o Solicitante (ver UC03).  
+4. O Gestor define a "Prioridade" da OS (ex: Baixa, Média, Alta, Urgente) e uma "Data Prevista de Conclusão".1  
+5. O Gestor altera o estado da OS para "Aprovada".  
+6. O sistema notifica o Solicitante sobre a aprovação e a data prevista.
+
+**Fluxo Alternativo:**
+
+* **Rejeitar solicitação:** Se a solicitação for inválida, o Gestor altera o estado para "Rejeitada" com uma justificação, e o Solicitante é notificado.
+
+Pós-condição:  
+A OS é avaliada, priorizada e o seu estado é alterado para "Aprovada" ou "Rejeitada".
+
+### **UC07: Atribuir Solicitação a Técnico**
+
+Neste caso de uso, **UC07**, o **Gestor de Manutenção** designa um Técnico para executar uma OS aprovada. A OS deve ter o estado "Aprovada".
+
+**Fluxo Principal:**
+
+1. O Gestor visualiza a lista de OS aprovadas e seleciona uma.  
+2. O sistema exibe uma lista dos Técnicos de Manutenção disponíveis.  
+3. O Gestor seleciona um Técnico e atribui-lhe a OS.  
+4. O sistema altera o estado da OS para "Agendada" e notifica o Técnico sobre a nova tarefa.
+
+Pós-condição:  
+A OS é atribuída a um Técnico e o seu estado muda para "Agendada".
+
+### **UC08: Atualizar e Fechar Ordem de Serviço**
+
+Este caso de uso, **UC08**, permite ao **Gestor de Manutenção** rever o trabalho concluído, registar os custos finais e fechar formalmente a OS. A OS deve ter o estado "Concluída".
+
+**Fluxo Principal:**
+
+1. O Gestor acede à lista de OS com estado "Concluída" e abre uma para revisão.  
+2. O Gestor verifica os detalhes registados pelo Técnico.  
+3. O Gestor insere os custos finais da manutenção (mão de obra e material) e adiciona anotações gerais, se necessário.1  
+4. O Gestor altera o estado da OS para "Fechada".  
+5. O sistema arquiva a OS como um registo histórico completo.
+
+Pós-condição:  
+A OS é finalizada, com todos os custos registados, e o seu ciclo de vida é concluído.
+
+### **UC09: Gerir Planos de Manutenção Preventiva**
+
+Neste caso de uso, **UC09**, o **Gestor de Manutenção** cria e gere planos de manutenção recorrentes para os ativos. O Gestor deve estar autenticado no sistema.
+
+**Fluxo Principal:**
+
+1. O Gestor acede ao módulo de "Manutenção Preventiva" e cria um novo plano.  
+2. O Gestor define os parâmetros do plano: nome, tipo de ativo, frequência e a lista de tarefas.  
+3. O Gestor ativa o plano.  
+4. O sistema, com base na frequência, gera automaticamente Ordens de Serviço preventivas e atribui-as ou coloca-as numa fila para atribuição.
+
+Pós-condição:  
+Um plano de manutenção preventiva é criado e o sistema está configurado para gerar OS automaticamente.
+
+### **UC10: Gerir Catálogo de Ativos**
+
+Este caso de uso, **UC10**, permite ao **Gestor de Manutenção** manter o registo central de todos os equipamentos e ativos. O Gestor deve estar autenticado.
+
+**Fluxo Principal:**
+
+1. O Gestor acede ao módulo de "Ativos".  
+2. O sistema exibe a lista de todos os ativos registados.  
+3. O Gestor pode executar operações de Criar, Ler, Atualizar e Apagar (CRUD) sobre os ativos, preenchendo campos como Nome, Categoria, Número de Património (NI), Marca, Modelo e Localização.
+
+Pós-condição:  
+O catálogo de ativos do sistema está atualizado.
+
+### **UC11: Gerir Parâmetros do Sistema**
+
+Neste caso de uso, **UC11**, o **Gestor de Manutenção** personaliza as listas e opções utilizadas nos formulários do sistema, como Unidades, Áreas e Tipos de Serviço.1 O Gestor deve ter permissões de administrador.
+
+**Fluxo Principal:**
+
+1. O Gestor acede à área de "Administração" e seleciona a entidade que deseja gerir.  
+2. O sistema exibe a lista de itens existentes.  
+3. O Gestor pode adicionar, editar ou remover itens das listas.  
+4. As alterações são refletidas imediatamente em todo o sistema.
+
+Pós-condição:  
+As opções disponíveis nos formulários estão personalizadas.
+
+### **UC12: Gerir Utilizadores e Perfis**
+
+Este caso de uso, **UC12**, permite ao **Gestor de Manutenção** criar e administrar as contas de utilizador e as suas permissões. O Gestor deve ter permissões de administrador.
+
+**Fluxo Principal:**
+
+1. O Gestor acede à área de "Gestão de Utilizadores".  
+2. O Gestor pode criar um novo utilizador (fornecendo nome, e-mail e perfil), editar um utilizador existente (alterar perfil, redefinir senha) ou desativar uma conta.
+
+Pós-condição:  
+As contas de utilizador e as suas permissões de acesso estão corretamente configuradas.
+
+### **UC13: Gerar Relatórios e Dashboards**
+
+Neste caso de uso, **UC13**, o **Gestor de Manutenção** utiliza o sistema para extrair dados e visualizar indicadores de desempenho (KPIs). O Gestor deve estar autenticado.
+
+**Fluxo Principal:**
+
+1. O Gestor acede à secção de "Relatórios e Análises".  
+2. O sistema apresenta um dashboard com KPIs visuais (ex: MTTR, custos, ativos com mais falhas).  
+3. O Gestor pode selecionar, filtrar e gerar relatórios pré-definidos.  
+4. O Gestor pode exportar os relatórios em formato PDF ou CSV.
+
+Pós-condição:  
+O Gestor obtém insights baseados em dados para apoiar a tomada de decisão.
