@@ -1,0 +1,122 @@
+/* Configurações Gerais */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+:root {
+    --verde-claro: #f0f4f0;
+    --verde-medio: #7ca68e;
+    --verde-escuro: #2d5a43;
+    --bege: #fdfaf5;
+}
+
+body { background-color: var(--bege); color: #333; }
+
+/* DESIGN DA TELA DE LOGIN */
+.login-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--verde-claro);
+}
+
+.login-container {
+    display: flex;
+    width: 900px;
+    height: 550px;
+    background: white;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.login-info {
+    flex: 1;
+    background: var(--verde-escuro); /* Aqui você pode por uma imagem de fundo */
+    background-image: linear-gradient(rgba(45, 90, 67, 0.7), rgba(45, 90, 67, 0.7)), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=500');
+    background-size: cover;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+}
+
+.login-form {
+    flex: 1.2;
+    padding: 50px;
+    background-color: var(--verde-medio);
+    color: white;
+}
+
+.input-group { margin-bottom: 15px; display: flex; flex-direction: column; }
+.input-group label { font-size: 0.9rem; margin-bottom: 5px; }
+.input-group input { 
+    padding: 12px; 
+    border-radius: 20px; 
+    border: none; 
+    background: rgba(255,255,255,0.2); 
+    color: white;
+}
+.input-row { display: flex; gap: 10px; }
+
+.btn-main {
+    width: 100%;
+    padding: 15px;
+    border-radius: 30px;
+    border: none;
+    background: #e0f2f1;
+    color: var(--verde-escuro);
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.btn-main:hover { background: white; transform: scale(1.02); }
+
+/* DESIGN DA INDEX (HOME) */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 8%;
+    background: white;
+    align-items: center;
+}
+
+.logo { font-weight: bold; font-size: 1.5rem; color: var(--verde-escuro); }
+.navbar ul { display: flex; list-style: none; gap: 30px; }
+.navbar a { text-decoration: none; color: #555; }
+
+.hero {
+    height: 70vh;
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1500076656116-558758c991c1?q=80&w=1200');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.hero h1 { font-size: 3.5rem; margin-bottom: 20px; }
+
+.grid-services, .grid-houses {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    padding: 50px 8%;
+}
+
+.house-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.house-img { height: 200px; background-size: cover; background-position: center; }
+.house-card h3 { margin: 15px 0 5px; }
+.btn-sec { background: var(--verde-escuro); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
