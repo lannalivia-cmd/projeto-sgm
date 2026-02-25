@@ -8,7 +8,7 @@ if(!isset($_SESSION['user_id'])){
 $perfil = $_SESSION['user_perfil'];
 switch ($perfil) {
      case 'gestor':
-        header ("location: gestor_dashboard,php");
+        header ("location: gestor_dashboard.php");
         break;
         case 'tecnico':
             header ("location: tecnico_minhas_tarefas.php");
