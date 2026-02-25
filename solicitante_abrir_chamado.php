@@ -122,7 +122,7 @@
                         <select id="selectBloco" class="form-select" required onchange="carregarAmbientes(this.value)">
                             <option value="">Selecione o bloco</option>
                         </select>
-                    </div>
+    </div>
 
                     <div class="col-md-6 mb-4">
                         <label class="form-label"><i class="bi bi-geo-alt text-primary"></i> Ambiente/Sala</label>
